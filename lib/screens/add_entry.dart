@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:image_picker/image_picker.dart';
 import '../components/custom_widgets.dart';
-import '../models/entries.dart';
+import '../models/food_waste_entries.dart';
 import 'dart:io';
 
 class AddEntry extends StatefulWidget {
@@ -19,7 +19,7 @@ class AddEntry extends StatefulWidget {
 
 class _AddEntryState extends State<AddEntry> {
 
-  final Entries entries = Entries();
+  final FoodWasteEntries entries = FoodWasteEntries();
   final formKey = GlobalKey<FormState>();
   firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
 
@@ -91,7 +91,7 @@ Widget imagePreview(File image){
   );
 }
 
-Widget quantityForm(Entries entries, GlobalKey<FormState> formKey, BuildContext context){
+Widget quantityForm(FoodWasteEntries entries, GlobalKey<FormState> formKey, BuildContext context){
   return(
     Form(
       key: formKey,
@@ -118,7 +118,7 @@ Widget quantityForm(Entries entries, GlobalKey<FormState> formKey, BuildContext 
   );
 }
 
-Widget submitAll(Entries entries, 
+Widget submitAll(FoodWasteEntries entries, 
                 GlobalKey<FormState> formKey, 
                 BuildContext context,
                 LocationData locationData,
@@ -143,14 +143,14 @@ Widget submitAll(Entries entries,
     );
 }
 
-void addEntriesToFirebase(Entries entries) async{
+void addEntriesToFirebase(FoodWasteEntries entries) async{
   FirebaseFirestore.instance
       .collection('wasteinfo')
-      .add({'date': entries.date, 
-            'imgUrl': entries.imageUrl,
-            'quantity': entries.quantity,
-            'latitude': entries.latitude,
-            'longitude': entries.longitude});
+      .add({'date': entries.getDate, 
+            'imgUrl': entries.getImage,
+            'quantity': entries.getQuantity,
+            'latitude': entries.getLatitude,
+            'longitude': entries.getLongitude});
 }
 
 
